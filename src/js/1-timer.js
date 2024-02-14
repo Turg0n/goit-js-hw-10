@@ -26,7 +26,7 @@ const options = {
     if (userSelectedDate > Date.now()) {
         startBtn.removeAttribute('disabled');
 
-        startBtn.addEventListener('click', onStartBtnClick);
+        
         } else {
         startBtn.setAttribute('disabled', true);
 
@@ -40,30 +40,30 @@ const options = {
         });
     }
 
-    function onStartBtnClick() {
-        startBtn.setAttribute('disabled', true);
-        datetimePicker.setAttribute('disabled', true);
-
-        const interval = setInterval(() => {
-        const currentTime = Date.now();
-        const remainingTime = userSelectedDate - currentTime;
-        const convertedRemainingTime = convertMs(remainingTime);
-
-        Object.entries(convertedRemainingTime).forEach(([key, value]) => {
-            timerValue[key].textContent = addZero(value);
-        });
-        if (remainingTime < 1000) {
-            clearInterval(interval);
-        }
-        }, 1000);
-    }
+    
     },
 };
-
+startBtn.addEventListener('click', onStartBtnClick);
 function addZero(value) {
     return value.toString().padStart(2, '0');
 }
+function onStartBtnClick() {
+    startBtn.setAttribute('disabled', true);
+    datetimePicker.setAttribute('disabled', true);
 
+    const interval = setInterval(() => {
+    const currentTime = Date.now();
+    const remainingTime = userSelectedDate - currentTime;
+    const convertedRemainingTime = convertMs(remainingTime);
+
+    Object.entries(convertedRemainingTime).forEach(([key, value]) => {
+        timerValue[key].textContent = addZero(value);
+    });
+    if (remainingTime < 1000) {
+        clearInterval(interval);
+    }
+    }, 1000);
+}
 function convertMs(ms) {
     const second = 1000;
     const minute = second * 60;

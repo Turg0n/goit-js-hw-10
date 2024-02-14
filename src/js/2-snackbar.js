@@ -9,24 +9,24 @@ function onSubmitBtnClick(e) {
     e.preventDefault();
 
     const makePromise = () => {
-    return new Promise((resolve, reject) => {
-        const delay = numberInput.value;
-        const shouldResolve = form.elements.state.value;
-        
-        setTimeout(() => {
-        if (shouldResolve === 'fulfilled') {
-            resolve(`✅ Fulfilled promise in ${delay}ms`);
-        } else {
-            reject(`❌ Rejected promise in ${delay}ms`);
-        }
-        }, delay);
-    });
-    };
+        return new Promise((resolve, reject) => {
+            const delay = numberInput.value;
+            const shouldResolve = form.elements.state.value === 'fulfilled';
 
+            setTimeout(() => {
+                if (shouldResolve) {
+                    resolve(delay); 
+                } else {
+                    reject(delay); 
+                }
+            }, delay);
+        });
+    };
+    
     makePromise()
     .then(value =>
         iziToast.show({
-        message: value,
+        message: `✅ Fulfilled promise in ${value}ms`,
         position: 'topRight',
         backgroundColor: 'green',
         messageColor: 'white',
@@ -37,7 +37,7 @@ function onSubmitBtnClick(e) {
     )
     .catch(error =>
         iziToast.show({
-        message: error,
+        message: `❌ Rejected promise in ${error}ms`,
         position: 'topRight',
         backgroundColor: 'red',
         messageColor: 'white',
